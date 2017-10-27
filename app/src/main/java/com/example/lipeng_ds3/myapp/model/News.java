@@ -5,9 +5,22 @@ package com.example.lipeng_ds3.myapp.model;
  */
 
 public class News {
+    private int newsId;
     private int newsImageId;
     private String newsTitle;
     private String newsContent;
+
+    public int getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(int newsId) {
+        this.newsId = newsId;
+    }
+
+    public void setNewsImageId(int newsImageId) {
+        this.newsImageId = newsImageId;
+    }
 
     public int getNewsImageId() {
         return newsImageId;
