@@ -12,6 +12,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_USER = "create table user(" +
             "account text primary key," +
             "password text)";
+    private static final String CREATE_NEWS = "create table news(" +
+            "id integer primary key," +
+            "imageId text," +
+            "title text," +
+            "content text";
     private static final String DB_NAME = "user";
     private static final int VERSION = 1;
 
@@ -22,6 +27,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {//第一次调用getWritableDatabase 或者getReadableDatabase执行该方法
         db.execSQL(CREATE_USER);
+        db.execSQL(CREATE_NEWS);
+        //创建完user立即插入数据
         db.execSQL("insert into user (account, password) values(?, ?)",new String[]{"lipeng-ds3", "123"});
         db.execSQL("insert into user (account, password) values(?, ?)",new String[]{"lipeng", "123"});
     }
