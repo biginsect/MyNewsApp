@@ -16,6 +16,8 @@ import java.util.List;
  */
 
 public final class NewsDatabase {
+    public static volatile boolean flag = false;
+
     private static final String DB_NAME = "MyNews";
     private static final int DB_VERSION = 1;
     private static NewsDatabase newsDataBase ;
@@ -49,19 +51,24 @@ public final class NewsDatabase {
         Cursor cursor = database.query("news", null, null, null, null, null, null);
         String start = "<div class=\"content\">";
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
-                //第一次创建的时候数据库的内容都为null
                 News news = new News();
                 news.setNewsId(cursor.getInt(cursor.getColumnIndex("id")));
                 news.setNewsImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
                 news.setNewsTitle(cursor.getString(cursor.getColumnIndex("title")));
                 String content = cursor.getString(cursor.getColumnIndex("content"));
+            if (content != null){
                 int sta = content.indexOf(start);
                 Log.d("~~~~~~~~~~~~~~~~~~~~~~~",""+sta);
-//                String temp = content.substring(content.indexOf(start));
-                news.setNewsContent(content.trim());
-                newsList.add(news);
+                String temp = content.substring(content.indexOf(start) + 25);
+                Log.d("-=-=-=-=-=-=-=-=-=-=-=-",temp);
+                flag = true;
+                news.setNewsContent(temp);
+            }else {
+                flag = false;
+            }
+            newsList.add(news);
         }
-        if (!cursor.isClosed())
+        if (cursor != null)
                 cursor.close();
         return newsList;
     }

@@ -42,9 +42,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         //加载数据
-        NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL);
-        //根据数据库中的id去请求content，然后对数据库对于的content进行更新
-        updateNewsContent();
+        //不应该每次都根据url去请求数据
+        if (!NewsDatabase.flag){
+            NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL);
+            //根据数据库中的id去请求content，然后对数据库对于的content进行更新
+            updateNewsContent();
+        }
         newsList = mDatabase.loadNews();
         Log.d(TAG, "news size is " + newsList.size());
         adapter = new MyAdapter(this, newsList);
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 news = position;
                 //获取news 的id，添加到url中，跳转到对应的详情页面
                 newsId = news.getNewsId();
+                Log.d(TAG, newsId + "");
                 //先测试能否跳转
                 Intent intent = new Intent(MainActivity.this, NewsActivity.class);
                 intent.putExtra("newsId",newsId);
