@@ -20,18 +20,20 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements View.OnClickListener{
     private List<News> mNews;
     private OnItemClickListener mOnItemClickListener = null;
+    private Context mContext;
 
     public MyAdapter(Context context, List<News> news){
         mNews = news;
+        this.mContext = context;
     }
 
     public  interface OnItemClickListener{
-        void onItemClick(View view, int position);
+        void onItemClick(View view, News position);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.news_item, parent, false);
         view.setOnClickListener(this);
 
@@ -39,11 +41,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-//        News news = mNews.get(position);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        News news = mNews.get(position);
 //        holder.newsImage.setImageResource(news.getNewsImageUrl());
-//        holder.newsTitle.setText(news.getNewsTitle());
-//        holder.newsContent.setText(news.getNewsContent());
+        holder.newsTitle.setText(news.getNewsTitle());
+        holder.newsContent.setText(news.getNewsContent());
+        holder.itemView.setTag(mNews.get(position));
     }
 
     @Override
@@ -55,7 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
     public void onClick(View v) {
         if (mOnItemClickListener != null){
             //getTag 获取position
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+            mOnItemClickListener.onItemClick(v, (News) v.getTag());
         }
     }
 

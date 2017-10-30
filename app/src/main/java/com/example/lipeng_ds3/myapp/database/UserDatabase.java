@@ -42,9 +42,7 @@ public class UserDatabase {
                 userList.add(user);
             }while (cursor.moveToNext());
         }
-
-        if (cursor != null)
-            cursor.close();
+        cursor.close();
 
         return userList;
     }

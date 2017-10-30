@@ -2,17 +2,22 @@ package com.example.lipeng_ds3.myapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.lipeng_ds3.myapp.model.News;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lipeng-ds3 on 2017/10/30.
  */
 
 public final class NewsDatabase {
-    public static final String DB_NAME = "MyNews";
-    public static final int DB_VERSION = 1;
+    private static final String DB_NAME = "MyNews";
+    private static final int DB_VERSION = 1;
     private static NewsDatabase newsDataBase ;
     private SQLiteDatabase database;
 
@@ -34,8 +39,51 @@ public final class NewsDatabase {
             values.put("id", news.getNewsId());
             values.put("imageUrl",news.getNewsImageUrl());
             values.put("title",news.getNewsTitle());
-            values.put("",news.getNewsContent());
+            values.put("content",news.getNewsContent());
             database.insertWithOnConflict("news", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
+    }
+
+    public List<News> loadNews(){
+        List<News> newsList = new ArrayList<>();
+        Cursor cursor = database.query("news", null, null, null, null, null, null);
+        String start = "<div class=\"content\">";
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                //第一次创建的时候数据库的内容都为null
+                News news = new News();
+                news.setNewsId(cursor.getInt(cursor.getColumnIndex("id")));
+                news.setNewsImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
+                news.setNewsTitle(cursor.getString(cursor.getColumnIndex("title")));
+                String content = cursor.getString(cursor.getColumnIndex("content"));
+                int sta = content.indexOf(start);
+                Log.d("~~~~~~~~~~~~~~~~~~~~~~~",""+sta);
+//                String temp = content.substring(content.indexOf(start));
+                news.setNewsContent(content.trim());
+                newsList.add(news);
+        }
+        if (!cursor.isClosed())
+                cursor.close();
+        return newsList;
+    }
+
+    //根据id请求详情内容，然后更新数据库
+    public void updateNewsContent(int id, String content){
+        ContentValues values = new ContentValues();
+        values.put("content",content);
+        database.update("news", values, "id=?", new String[]{id+""});
+    }
+
+    public List<Integer> queryId(){
+        List<Integer> idList = new ArrayList<>();
+        Cursor cursor = database.query("news", null, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                int id = cursor.getInt(0);
+                idList.add(id);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return idList;
     }
 }

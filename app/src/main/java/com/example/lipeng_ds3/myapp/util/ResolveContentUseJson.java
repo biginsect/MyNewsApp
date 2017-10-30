@@ -1,5 +1,8 @@
 package com.example.lipeng_ds3.myapp.util;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.example.lipeng_ds3.myapp.database.NewsDatabase;
 import com.example.lipeng_ds3.myapp.model.News;
 
@@ -12,8 +15,13 @@ import org.json.JSONObject;
  */
 
 public final class ResolveContentUseJson {
+    private final static String TAG = "ResolveContentUseJson";
     //处理请求返回的string类型数据
     public synchronized static void handleResponse(NewsDatabase dataBase, String response){
+        if (response == null){
+            Log.d(TAG, " handleResponse: response is null");
+            return;
+        }
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("stories");
@@ -41,11 +49,27 @@ public final class ResolveContentUseJson {
                 news.setNewsImageUrl(newsImageUrl);
                 news.setNewsId(Integer.parseInt(newsId));
                 news.setNewsTitle(newsTitle);
+//                Log.d(TAG, "newsImageUrl "+ newsImageUrl + "\n" + "newsId" + newsId);
                 dataBase.saveNews(news);
             }catch (JSONException e){
                 e.printStackTrace();
             }
             i++;
+        }
+    }
+
+    public synchronized static void handleResponseForUpdateDB(NewsDatabase database, int id, String response){
+        if (response == null){
+            Log.d(TAG, "handleResponseForUpdateDB : response is null");
+            return;
+        }
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            String content = jsonObject.getString("body");
+//            Log.d(TAG, content.substring(0 , 100));
+            database.updateNewsContent(id, content);
+        }catch (JSONException e){
+            e.printStackTrace();
         }
     }
 }
