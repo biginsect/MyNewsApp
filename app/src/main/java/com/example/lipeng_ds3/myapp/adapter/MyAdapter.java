@@ -40,10 +40,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        News news = mNews.get(position);
-        holder.newsImage.setImageResource(news.getNewsImageId());
-        holder.newsTitle.setText(news.getNewsTitle());
-        holder.newsContent.setText(news.getNewsContent());
+//        News news = mNews.get(position);
+//        holder.newsImage.setImageResource(news.getNewsImageUrl());
+//        holder.newsTitle.setText(news.getNewsTitle());
+//        holder.newsContent.setText(news.getNewsContent());
     }
 
     @Override

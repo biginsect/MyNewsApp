@@ -6,7 +6,7 @@ package com.example.lipeng_ds3.myapp.model;
 
 public class News {
     private int newsId;
-    private int newsImageId;
+    private String newsImageUrl;
     private String newsTitle;
     private String newsContent;
 
@@ -18,17 +18,14 @@ public class News {
         this.newsId = newsId;
     }
 
-    public void setNewsImageId(int newsImageId) {
-        this.newsImageId = newsImageId;
+    public void setNewsImageUrl(String newsImageUrl) {
+        this.newsImageUrl = newsImageUrl;
     }
 
-    public int getNewsImageId() {
-        return newsImageId;
+    public String getNewsImageUrl() {
+        return newsImageUrl;
     }
 
-    public void setNewsImage(int newsImageId) {
-        this.newsImageId = newsImageId;
-    }
 
     public String getNewsTitle() {
         return newsTitle;

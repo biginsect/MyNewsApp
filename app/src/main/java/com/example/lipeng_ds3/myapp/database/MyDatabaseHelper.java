@@ -14,14 +14,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "password text)";
     private static final String CREATE_NEWS = "create table news(" +
             "id integer primary key," +
-            "imageId text," +
+            "imageUrl text," +
             "title text," +
-            "content text";
-    private static final String DB_NAME = "user";
-    private static final int VERSION = 1;
+            "content text)";
 
-    public MyDatabaseHelper(Context context) {
-        super(context, DB_NAME, null, VERSION);
+    public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
     }
 
     @Override
@@ -30,7 +28,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_NEWS);
         //创建完user立即插入数据
         db.execSQL("insert into user (account, password) values(?, ?)",new String[]{"lipeng-ds3", "123"});
-        db.execSQL("insert into user (account, password) values(?, ?)",new String[]{"lipeng", "123"});
+        //db.execSQL("insert into user (account, password) values(?, ?)",new String[]{"lipeng", "123"});
     }
 
     @Override

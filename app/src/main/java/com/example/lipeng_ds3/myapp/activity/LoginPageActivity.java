@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.lipeng_ds3.myapp.R;
 import com.example.lipeng_ds3.myapp.database.MyDatabaseHelper;
+import com.example.lipeng_ds3.myapp.database.UserDatabase;
+import com.example.lipeng_ds3.myapp.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +24,8 @@ import butterknife.ButterKnife;
  */
 
 public class LoginPageActivity extends AppCompatActivity implements View.OnClickListener{
-    private MyDatabaseHelper mDBHelper;
+    private UserDatabase database;
+    private User user;
     private String account;
     private String password;
     private String getAccount;
@@ -39,20 +42,13 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.login_page);
         ButterKnife.bind(this);
         loginBtn.setOnClickListener(this);
-        mDBHelper = new MyDatabaseHelper(this);
         getUserFromDB();
     }
 
     private void getUserFromDB(){//从数据库读取内容
-        SQLiteDatabase database = mDBHelper.getReadableDatabase();
-        Cursor cursor = database.query("user", null, null, null, null, null, null);
-        if (cursor.moveToFirst()){
-         do{
-             account = cursor.getString(cursor.getColumnIndex("account"));
-             password = cursor.getString(cursor.getColumnIndex("password"));
-         }while (cursor.moveToNext());
-        }
-        cursor.close();
+        user = UserDatabase.getInstance(this).getUser().get(0);
+        account = user.getAccount();
+        password = user.getPassword();
     }
 
     @Override
@@ -65,7 +61,9 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(this, "account must not be null!",Toast.LENGTH_SHORT ).show();
                 }else if (account.equals(getAccount) && password.equals(getPassword)){
                     Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
+                    Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
+                    finish();
                 }else {
                     Toast.makeText(this, "account or password is invalid!",Toast.LENGTH_SHORT).show();
                 }
