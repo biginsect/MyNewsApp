@@ -1,6 +1,7 @@
 package com.example.lipeng_ds3.myapp.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.lipeng_ds3.myapp.R;
 import com.example.lipeng_ds3.myapp.model.News;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -46,6 +48,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 //        holder.newsImage.setImageResource(news.getNewsImageUrl());
         holder.newsTitle.setText(news.getNewsTitle());
         holder.newsContent.setText(news.getNewsContent());
+        //通过Url请求图片，会自动缓存
+        holder.newsImage.setImageURI(Uri.parse(news.getNewsImageUrl()));
         holder.itemView.setTag(mNews.get(position));
     }
 
@@ -68,13 +72,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
 
     //自定义ViewHolder
     static class MyViewHolder extends RecyclerView.ViewHolder{
-        ImageView newsImage;
+        SimpleDraweeView newsImage;
         TextView newsTitle;
         TextView newsContent;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            newsImage = (ImageView)itemView.findViewById(R.id.news_image);
+            newsImage = (SimpleDraweeView)itemView.findViewById(R.id.news_image);
             newsTitle = (TextView)itemView.findViewById(R.id.news_title);
             newsContent = (TextView)itemView.findViewById(R.id.news_content);
         }

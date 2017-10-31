@@ -1,5 +1,8 @@
 package com.example.lipeng_ds3.myapp.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.lipeng_ds3.myapp.database.NewsDatabase;
 
 import java.io.IOException;
@@ -33,13 +36,34 @@ public final class NetworkUtil {
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful())
                     throw new IOException("Unexpected code " + response.code());
-                ResolveContentUseJson.handleResponse(database, response.body().string());
+                ResolveResponseUseJson.handleResponse(database, response.body().string());
             }
         });
 
     }
 
-    //根据news id去请求数据
+    //通过url加载数据，并将数据存储到SharedPreferences中
+    public static void loadWebViewFromURL(final Context context,String url){
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    String[] code = ResolveResponseUseJson.handleWebViewResponse(response.body().string());
+                    saveWebViewCode(context, code);
+                }
+            }
+        });
+    }
+
+    //根据news id去请求content
     public static String getContentFromURLAndId(String url,final int id){
         Request request = new Request.Builder()
                 .url(url + id)
@@ -52,5 +76,19 @@ public final class NetworkUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public synchronized static void saveWebViewCode(Context context, String[] code){
+        if (code.length > 1){
+            SharedPreferences htmlPreferences = context.getSharedPreferences("html", Context.MODE_PRIVATE);
+            SharedPreferences.Editor htmlEditor = htmlPreferences.edit();
+            htmlEditor.putString("html",code[0] + "<head><style>img{width:320px !important;}</style></head>");
+            htmlEditor.apply();
+
+            SharedPreferences cssPreferences = context.getSharedPreferences("css.css", Context.MODE_PRIVATE);
+            SharedPreferences.Editor cssEditor = cssPreferences.edit();
+            cssEditor.putString("css", code[1]);
+            cssEditor.apply();
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.example.lipeng_ds3.myapp.adapter.MyAdapter;
 import com.example.lipeng_ds3.myapp.database.NewsDatabase;
 import com.example.lipeng_ds3.myapp.model.News;
 import com.example.lipeng_ds3.myapp.util.NetworkUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        newsList = new ArrayList<>();
         ButterKnife.bind(this);
+
+        Fresco.initialize(this);
+        newsList = new ArrayList<>();
         mDatabase = NewsDatabase.getInstance(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, newsId + "");
                 //先测试能否跳转
                 Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                intent.putExtra("newsId",newsId);
+                intent.putExtra("address",NetworkUtil.URL_HAS_NOT_ID + newsId);
                 startActivity(intent);
             }
         });

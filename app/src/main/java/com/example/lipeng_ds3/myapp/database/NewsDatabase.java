@@ -16,6 +16,7 @@ import java.util.List;
  */
 
 public final class NewsDatabase {
+    private static final String TAG = "NewsDatabase";
     public static volatile boolean flag = false;
 
     private static final String DB_NAME = "MyNews";
@@ -51,17 +52,19 @@ public final class NewsDatabase {
         Cursor cursor = database.query("news", null, null, null, null, null, null);
 //        String start = "</span>\n</div>\n\n<div class=\"content\">\n<p>";
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
-                News news = new News();
-                news.setNewsId(cursor.getInt(cursor.getColumnIndex("id")));
-                news.setNewsImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
-                news.setNewsTitle(cursor.getString(cursor.getColumnIndex("title")));
-                String content = cursor.getString(cursor.getColumnIndex("content"));
+            News news = new News();
+            news.setNewsId(cursor.getInt(cursor.getColumnIndex("id")));
+            news.setNewsImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
+            news.setNewsTitle(cursor.getString(cursor.getColumnIndex("title")));
+            String content = cursor.getString(cursor.getColumnIndex("content"));
+
             if (content != null){
                 content = content.replaceAll("[^\u4E00-\u9FA5]","");
                 news.setNewsContent(content);
             }else {
                 flag = false;
             }
+            Log.d(TAG, news.getNewsImageUrl());
             newsList.add(news);
         }
         if (cursor != null)
@@ -69,24 +72,4 @@ public final class NewsDatabase {
         return newsList;
     }
 
-/*    //根据id请求详情内容，然后更新数据库
-    public void updateNewsContent(int id, String content){
-        ContentValues values = new ContentValues();
-        values.put("content",content);
-        database.update("news", values, "id=?", new String[]{id+""});
-    }*/
-
-/*    public List<Integer> queryId(){
-        List<Integer> idList = new ArrayList<>();
-        Cursor cursor = database.query("news", null, null, null, null, null, null);
-        if (cursor.moveToFirst()){
-            do {
-                int id = cursor.getInt(0);
-                idList.add(id);
-            }while (cursor.moveToNext());
-        }
-        cursor.close();
-
-        return idList;
-    }*/
 }
