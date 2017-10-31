@@ -49,7 +49,7 @@ public final class NewsDatabase {
     public List<News> loadNews(){
         List<News> newsList = new ArrayList<>();
         Cursor cursor = database.query("news", null, null, null, null, null, null);
-        String start = "<div class=\"content\">";
+//        String start = "</span>\n</div>\n\n<div class=\"content\">\n<p>";
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
                 News news = new News();
                 news.setNewsId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -57,12 +57,8 @@ public final class NewsDatabase {
                 news.setNewsTitle(cursor.getString(cursor.getColumnIndex("title")));
                 String content = cursor.getString(cursor.getColumnIndex("content"));
             if (content != null){
-                int sta = content.indexOf(start);
-                Log.d("~~~~~~~~~~~~~~~~~~~~~~~",""+sta);
-                String temp = content.substring(content.indexOf(start) + 25);
-                Log.d("-=-=-=-=-=-=-=-=-=-=-=-",temp);
-                flag = true;
-                news.setNewsContent(temp);
+                content = content.replaceAll("[^\u4E00-\u9FA5]","");
+                news.setNewsContent(content);
             }else {
                 flag = false;
             }
@@ -73,14 +69,14 @@ public final class NewsDatabase {
         return newsList;
     }
 
-    //根据id请求详情内容，然后更新数据库
+/*    //根据id请求详情内容，然后更新数据库
     public void updateNewsContent(int id, String content){
         ContentValues values = new ContentValues();
         values.put("content",content);
         database.update("news", values, "id=?", new String[]{id+""});
-    }
+    }*/
 
-    public List<Integer> queryId(){
+/*    public List<Integer> queryId(){
         List<Integer> idList = new ArrayList<>();
         Cursor cursor = database.query("news", null, null, null, null, null, null);
         if (cursor.moveToFirst()){
@@ -92,5 +88,5 @@ public final class NewsDatabase {
         cursor.close();
 
         return idList;
-    }
+    }*/
 }

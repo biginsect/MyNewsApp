@@ -24,16 +24,54 @@ public final class ResolveContentUseJson {
         }
         try {
             JSONObject jsonObject = new JSONObject(response);
-            JSONArray jsonArray = jsonObject.getJSONArray("stories");
-            String[] stories = new String[jsonArray.length()];
+            JSONArray jsonArrayStories = jsonObject.getJSONArray("stories");
+            JSONArray jsonArrayTopStories = jsonObject.getJSONArray("top_stories");
+            String[] stories = new String[jsonArrayStories.length()];
             for (int i = 0; i < stories.length; i++){
-                stories[i] = jsonArray.getString(i);
+                stories[i] = jsonArrayStories.getString(i);
             }
             handleJSONArray(dataBase, stories);
+
+            String[] topStories = new String[jsonArrayTopStories.length()];
+            for (int i = 0; i < topStories.length; i++){
+                topStories[i] = jsonArrayTopStories.getString(i);
+            }
+            handleJSONArrayTopStories(dataBase, topStories);
         }catch (JSONException e){
             e.printStackTrace();
         }
     }
+
+/*    //合并两个JSONArray
+    public static JSONArray mergeJSONArray(JSONArray array1, JSONArray array2){
+        StringBuffer buffer = new StringBuffer();
+        try{
+            int len = array1.length();
+            for (int i =0; i < len; i++){
+                JSONObject object = (JSONObject) array1.get(i);
+                if ( i == len - 1){
+                    buffer.append(object.toString());
+                }else {
+                    buffer.append(object.toString()).append(",");
+                }
+            }
+            len = array2.length();
+            if (len > 0)
+                buffer.append(",");
+            for (int i = 0; i < len; i++){
+                JSONObject object = (JSONObject) array2.get(i);
+                if (i == len - 1)
+                    buffer.append(object.toString());
+                else
+                    buffer.append(object.toString()).append(",");
+            }
+            buffer.insert(0, "[").append("]");
+            return new JSONArray(buffer.toString());
+        }catch (JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }*/
 
     //使用JSON解析数据
     public synchronized static void handleJSONArray(NewsDatabase dataBase, String[] arr){
@@ -46,9 +84,11 @@ public final class ResolveContentUseJson {
                 String newsImageUrl = jsonArray.get(0).toString();
                 String newsId = jsonObject.getString("id");
                 String newsTitle = jsonObject.getString("title");
+                String newsContent = NetworkUtil.getContentFromURLAndId(NetworkUtil.URL_HAS_NOT_ID, Integer.parseInt(newsId));
                 news.setNewsImageUrl(newsImageUrl);
                 news.setNewsId(Integer.parseInt(newsId));
                 news.setNewsTitle(newsTitle);
+                news.setNewsContent(newsContent);
 //                Log.d(TAG, "newsImageUrl "+ newsImageUrl + "\n" + "newsId" + newsId);
                 dataBase.saveNews(news);
             }catch (JSONException e){
@@ -58,7 +98,30 @@ public final class ResolveContentUseJson {
         }
     }
 
-    public synchronized static void handleResponseForUpdateDB(NewsDatabase database, int id, String response){
+    public synchronized static void handleJSONArrayTopStories(NewsDatabase dataBase, String[] arr){
+        int i = 0;
+        while (i != arr.length){
+            try{
+                News news = new News();
+                JSONObject jsonObject = new JSONObject(arr[i]);
+                String newsImageUrl = jsonObject.getString("image");
+                String newsId = jsonObject.getString("id");
+                String newsTitle = jsonObject.getString("title");
+                String newsContent = NetworkUtil.getContentFromURLAndId(NetworkUtil.URL_HAS_NOT_ID, Integer.parseInt(newsId));
+                news.setNewsImageUrl(newsImageUrl);
+                news.setNewsId(Integer.parseInt(newsId));
+                news.setNewsTitle(newsTitle);
+                news.setNewsContent(newsContent);
+//                Log.d(TAG, "newsImageUrl "+ newsImageUrl + "\n" + "newsId" + newsId);
+                dataBase.saveNews(news);
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            i++;
+        }
+    }
+
+/*    public synchronized static void handleResponseForUpdateDB(NewsDatabase database, int id, String response){
         if (response == null){
             Log.d(TAG, "handleResponseForUpdateDB : response is null");
             return;
@@ -71,5 +134,5 @@ public final class ResolveContentUseJson {
         }catch (JSONException e){
             e.printStackTrace();
         }
-    }
+    }*/
 }

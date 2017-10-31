@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         //不应该每次都根据url去请求数据
         if (!NewsDatabase.flag){
             NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL);
-            //根据数据库中的id去请求content，然后对数据库对于的content进行更新
-            updateNewsContent();
         }
         newsList = mDatabase.loadNews();
         Log.d(TAG, "news size is " + newsList.size());
@@ -69,11 +67,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateNewsContent(){
-        List<Integer> idList = mDatabase.queryId();
-        for (int i = 0; i < idList.size(); i++){
-            int id = idList.get(i);
-            NetworkUtil.getContentFromURLAndId(mDatabase,NetworkUtil.URL_HAS_NOT_ID, id);
-        }
-    }
 }

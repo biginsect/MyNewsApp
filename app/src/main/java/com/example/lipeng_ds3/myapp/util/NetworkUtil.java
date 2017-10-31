@@ -40,23 +40,17 @@ public final class NetworkUtil {
     }
 
     //根据news id去请求数据
-    public static void getContentFromURLAndId(final NewsDatabase database,String url,final int id){
+    public static String getContentFromURLAndId(String url,final int id){
         Request request = new Request.Builder()
                 .url(url + id)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                //请求成功  更新数据库
-                if (!response.isSuccessful())
-                    throw new IOException("Unexpected code " + response.code());
-                ResolveContentUseJson.handleResponseForUpdateDB(database, id, response.body().string());
-            }
-        });
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful())
+                return response.body().string();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
