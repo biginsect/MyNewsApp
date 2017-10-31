@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.example.lipeng_ds3.myapp.R;
+import com.example.lipeng_ds3.myapp.util.HTMLFormat;
 import com.example.lipeng_ds3.myapp.util.NetworkUtil;
 
 import butterknife.BindView;
@@ -32,7 +33,8 @@ public class NewsActivity extends AppCompatActivity {
         NetworkUtil.loadWebViewFromURL(this, address);
         Log.d(TAG, "  " + address);
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        mWebView.loadDataWithBaseURL("/data/data/com.example.lipeng_ds3/shared_prefs/css.css", loadHtmlCode(), "text/html",
+        mWebView.getSettings().setSupportZoom(true);
+        mWebView.loadDataWithBaseURL("/data/data/com.example.lipeng_ds3/shared_prefs/css.css", HTMLFormat.setNewContent(loadHtmlCode()), "text/html",
                 "UTF-8", null);
     }
 

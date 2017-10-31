@@ -82,7 +82,9 @@ public final class NetworkUtil {
         if (code.length > 1){
             SharedPreferences htmlPreferences = context.getSharedPreferences("html", Context.MODE_PRIVATE);
             SharedPreferences.Editor htmlEditor = htmlPreferences.edit();
-            htmlEditor.putString("html",code[0] + "<head><style>img{width:320px !important;}</style></head>");
+            //富文本设置
+//            String richCodeSetting = "<head><style>img{max-width:100% !important;} table{max-width:100% !important;}</style></head>";
+            htmlEditor.putString("html",code[0] );
             htmlEditor.apply();
 
             SharedPreferences cssPreferences = context.getSharedPreferences("css.css", Context.MODE_PRIVATE);
