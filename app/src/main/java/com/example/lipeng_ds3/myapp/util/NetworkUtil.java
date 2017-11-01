@@ -1,7 +1,10 @@
 package com.example.lipeng_ds3.myapp.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.example.lipeng_ds3.myapp.database.NewsDatabase;
 
@@ -99,5 +102,19 @@ public final class NetworkUtil {
             cssEditor.putString("css", code[1]);
             cssEditor.apply();
         }
+    }
+
+    //检查网络状态
+    public static boolean isNetworkAvailable(Activity activity){
+        Context context = activity.getApplicationContext();
+        ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager == null){
+            return false;
+        }else {
+            NetworkInfo info = manager.getActiveNetworkInfo();
+            if (info.getState() == NetworkInfo.State.CONNECTED)
+                return true;
+        }
+        return false;
     }
 }

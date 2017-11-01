@@ -41,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (!isNetworkAvailable(MainActivity.this))
+        if (!NetworkUtil.isNetworkAvailable(MainActivity.this))
             Toast.makeText(this, "No Available Network!",Toast.LENGTH_LONG).show();
         else
             Log.d(TAG, "Network is available!");
+
         init();
     }
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d(TAG, "news size is " + newsList.size());
         adapter = new MyAdapter(this, newsList);
         mRecyclerView.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, News position) {
@@ -79,17 +81,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //检查网络状态
-    public boolean isNetworkAvailable(Activity activity){
-        Context context = activity.getApplicationContext();
-        ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (manager == null){
-            return false;
-        }else {
-            NetworkInfo info = manager.getActiveNetworkInfo();
-            if (info.getState() == NetworkInfo.State.CONNECTED)
-                return true;
-        }
-        return false;
-    }
 }
