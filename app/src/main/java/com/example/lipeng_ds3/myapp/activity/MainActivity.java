@@ -1,12 +1,17 @@
 package com.example.lipeng_ds3.myapp.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.lipeng_ds3.myapp.R;
 import com.example.lipeng_ds3.myapp.adapter.MyAdapter;
@@ -36,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (!isNetworkAvailable(MainActivity.this))
+            Toast.makeText(this, "No Available Network!",Toast.LENGTH_LONG).show();
+        else
+            Log.d(TAG, "Network is available!");
         init();
     }
 
@@ -68,5 +77,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    //检查网络状态
+    public boolean isNetworkAvailable(Activity activity){
+        Context context = activity.getApplicationContext();
+        ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager == null){
+            return false;
+        }else {
+            NetworkInfo info = manager.getActiveNetworkInfo();
+            if (info.getState() == NetworkInfo.State.CONNECTED)
+                return true;
+        }
+        return false;
     }
 }
