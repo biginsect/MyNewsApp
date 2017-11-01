@@ -63,7 +63,7 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void login(){
+    private void login(){//对登录操作进行验证
         //获取EditText的账号和密码
         getAccount = accountEdit.getText().toString();
         getPassword = passwordEdit.getText().toString();

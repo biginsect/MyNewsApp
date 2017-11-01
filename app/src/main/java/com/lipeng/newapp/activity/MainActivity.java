@@ -24,7 +24,8 @@ import butterknife.ButterKnife;
 /**
  * App主界面，从url请求数据之后将相关数据显示在页面上
  * 主要有RecyclerView显示新闻的title、content和image，点击item能跳转到新闻详情页WebView
- * 第一次url请求得到的是image的url，需要再次请求才能得到图片*/
+ * 第一次url请求得到的是image的url，需要再次请求才能得到图片
+ * */
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
