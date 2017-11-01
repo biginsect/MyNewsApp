@@ -69,8 +69,8 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         getAccount = accountEdit.getText().toString();
         getPassword = passwordEdit.getText().toString();
         if ((TextUtils.isEmpty(getAccount))
-                && (TextUtils.isEmpty(getPassword))){//检查EditText内容是否为空
-            Toast.makeText(this, "account must not be null!",Toast.LENGTH_SHORT ).show();
+                || (TextUtils.isEmpty(getPassword))){//检查EditText内容是否为空
+            Toast.makeText(this, "account or password must not be null!",Toast.LENGTH_SHORT ).show();
         }else if (account.equals(getAccount) && password.equals(getPassword)){
             Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
             Toast.makeText(this, "Login successfully!", Toast.LENGTH_SHORT).show();
