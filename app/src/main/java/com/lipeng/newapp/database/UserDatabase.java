@@ -1,16 +1,17 @@
-package com.example.lipeng_ds3.myapp.database;
+package com.lipeng.newapp.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.lipeng_ds3.myapp.model.User;
+import com.lipeng.newapp.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by lipeng-ds3 on 2017/10/30.
+ * {@link User}对应的数据库操作类，主要方法是{@link #getUser()}用于获取用户的内容-账号和密码
  */
 
 public class UserDatabase {
@@ -24,14 +25,14 @@ public class UserDatabase {
         database = helper.getWritableDatabase();
     }
 
-    public synchronized static UserDatabase getInstance(Context context){
+    public synchronized static UserDatabase getInstance(Context context){//单例模式
         if (userDatabase == null){
             userDatabase = new UserDatabase(context);
         }
         return userDatabase;
     }
 
-    public List<User> getUser(){
+    public List<User> getUser(){//在数据库中获取账号密码
         List<User> userList = new ArrayList<>();
         Cursor cursor = database.query("user", null, null, null ,null ,null, null);
         if (cursor.moveToFirst()){

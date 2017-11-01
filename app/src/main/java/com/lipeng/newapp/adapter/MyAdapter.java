@@ -1,4 +1,4 @@
-package com.example.lipeng_ds3.myapp.adapter;
+package com.lipeng.newapp.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,17 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.lipeng_ds3.myapp.R;
-import com.example.lipeng_ds3.myapp.model.News;
+import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.model.News;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
 /**
  * Created by lipeng-ds3 on 2017/10/27.
+ * RecyclerView的适配器，对后端数据进行处理，然后完成在UI上面的显示
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements View.OnClickListener{
@@ -29,6 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         this.mContext = context;
     }
 
+    //用于回调，响应RecyclerView item的点击事件
     public  interface OnItemClickListener{
         void onItemClick(View view, News position);
     }
@@ -50,6 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
         holder.newsContent.setText(news.getNewsContent());
         //通过Url请求图片，会自动缓存
         holder.newsImage.setImageURI(Uri.parse(news.getNewsImageUrl()));
+        //存储每一个itemView的相关内容，不需要重复加载
         holder.itemView.setTag(mNews.get(position));
     }
 
@@ -59,7 +61,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {//对itemView点击时，进行回调，从而完成从MainActivity到WebViewActivity的跳转
         if (mOnItemClickListener != null){
             //getTag 获取position
             mOnItemClickListener.onItemClick(v, (News) v.getTag());

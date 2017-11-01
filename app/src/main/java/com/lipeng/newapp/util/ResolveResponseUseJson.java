@@ -1,24 +1,26 @@
-package com.example.lipeng_ds3.myapp.util;
+package com.lipeng.newapp.util;
 
 import android.util.Log;
 
-import com.example.lipeng_ds3.myapp.database.NewsDatabase;
-import com.example.lipeng_ds3.myapp.model.News;
+import com.lipeng.newapp.database.NewsDatabase;
+import com.lipeng.newapp.model.News;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-
 /**
  * Created by lipeng-ds3 on 2017/10/30.
+ *
+ * 主要用于处理请求返回的数据，服务器返回的是键值对类型，因此使用JSON对其进行解析
  */
 
 public final class ResolveResponseUseJson {
     private final static String TAG = "ResolveResponseUseJson";
-    //处理请求返回的string类型数据
+    /**
+     * 服务器返回的是两个键值对类型数据stories 和top_stories
+     * 需要分开处理
+     * */
     public synchronized static void handleResponse(NewsDatabase dataBase, String response){
         if (response == null){
             Log.d(TAG, " handleResponse: response is null");
@@ -44,7 +46,13 @@ public final class ResolveResponseUseJson {
         }
     }
 
-    //使用JSON解析数据
+    /**
+     * {@link #handleResponse(NewsDatabase, String)}返回两种数据，stories和top_stories
+     * 由于stories 返回的图片url对于的键是images 而top_stories 返回的是image
+     * 当前方法处理的是stories返回的数据
+     * {@link #handleJSONArrayTopStories(NewsDatabase, String[])}处理top_stories返回的数据
+     * 处理完成立即存储到数据库中
+     * */
     public synchronized static void handleJSONArray(NewsDatabase dataBase, String[] arr){
         int i = 0;
         while (i != arr.length){
@@ -69,6 +77,7 @@ public final class ResolveResponseUseJson {
         }
     }
 
+    //处理top_stories返回的数据
     public synchronized static void handleJSONArrayTopStories(NewsDatabase dataBase, String[] arr){
         int i = 0;
         while (i != arr.length){
@@ -92,7 +101,10 @@ public final class ResolveResponseUseJson {
         }
     }
 
-    //处理请求返回的内容，有body和css两种数据
+    /**
+     * 对于新闻详情页面url请求时，返回两种数据，分别是html代码和css代码
+     * 使用JSON提取，存放到数组中并返回
+     * */
     public synchronized static String[] handleWebViewResponse(String response){
         String[] code = new String[2];
         try{

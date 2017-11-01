@@ -1,4 +1,4 @@
-package com.example.lipeng_ds3.myapp;
+package com.example.lipeng_ds3.newsapp;
 
 import org.junit.Test;
 

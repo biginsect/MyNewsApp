@@ -1,10 +1,6 @@
-package com.example.lipeng_ds3.myapp.activity;
+package com.lipeng.newapp.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.lipeng_ds3.myapp.R;
-import com.example.lipeng_ds3.myapp.adapter.MyAdapter;
-import com.example.lipeng_ds3.myapp.database.NewsDatabase;
-import com.example.lipeng_ds3.myapp.model.News;
-import com.example.lipeng_ds3.myapp.util.NetworkUtil;
+import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.adapter.MyAdapter;
+import com.lipeng.newapp.database.NewsDatabase;
+import com.lipeng.newapp.model.News;
+import com.lipeng.newapp.util.NetworkUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
@@ -25,6 +21,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+/**
+ * App主界面，从url请求数据之后将相关数据显示在页面上
+ * 主要有RecyclerView显示新闻的title、content和image，点击item能跳转到新闻详情页WebView
+ * 第一次url请求得到的是image的url，需要再次请求才能得到图片*/
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
@@ -52,12 +52,13 @@ public class MainActivity extends AppCompatActivity {
     private void init(){//初始化控件，加载数据等
         ButterKnife.bind(this);
         Fresco.initialize(this);
+        //存放news的List
         newsList = new ArrayList<>();
         mDatabase = NewsDatabase.getInstance(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //保持RecyclerView固定的大小
         mRecyclerView.setHasFixedSize(true);
-        //加载数据
-        //不应该每次都根据url去请求数据
+        //请求数据，当请求成功则向数据库读取内容
         if(NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL)) {
             newsList = mDatabase.loadNews();
         }
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 newsId = news.getNewsId();
                 Log.d(TAG, newsId + "");
                 //先测试能否跳转
-                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
                 intent.putExtra("address",NetworkUtil.URL_HAS_NOT_ID + newsId);
                 startActivity(intent);
             }

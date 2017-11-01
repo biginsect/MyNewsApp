@@ -1,8 +1,6 @@
-package com.example.lipeng_ds3.myapp.activity;
+package com.lipeng.newapp.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lipeng_ds3.myapp.R;
-import com.example.lipeng_ds3.myapp.database.MyDatabaseHelper;
-import com.example.lipeng_ds3.myapp.database.UserDatabase;
-import com.example.lipeng_ds3.myapp.model.User;
+import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.database.UserDatabase;
+import com.lipeng.newapp.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by lipeng-ds3 on 2017/10/27.
+ * email:  lipeng-ds3@gomeplus.com
+ * App登录界面，主要实现账号密码的验证以及之后的跳转
  */
 
 public class LoginPageActivity extends AppCompatActivity implements View.OnClickListener{
@@ -46,7 +45,7 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         getUserFromDB();
     }
 
-    private void getUserFromDB(){//从数据库读取内容
+    private void getUserFromDB(){//从数据库读取账号密码
         database = UserDatabase.getInstance(this);
         user = database.getUser().get(0);
         account = user.getAccount();
@@ -71,7 +70,7 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
         if ((TextUtils.isEmpty(getAccount))
                 || (TextUtils.isEmpty(getPassword))){//检查EditText内容是否为空
             Toast.makeText(this, "account or password must not be null!",Toast.LENGTH_SHORT ).show();
-        }else if (account.equals(getAccount) && password.equals(getPassword)){
+        }else if (account.equals(getAccount) && password.equals(getPassword)){//账号密码都正确则跳转
             Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
             Toast.makeText(this, "Login successfully!", Toast.LENGTH_SHORT).show();
             startActivity(intent);

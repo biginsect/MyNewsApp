@@ -1,11 +1,14 @@
-package com.example.lipeng_ds3.myapp.model;
+package com.lipeng.newapp.model;
 
 /**
  * Created by lipeng-ds3 on 2017/10/30.
+ * 用户的实体类
  */
 
 public class User {
+    //账号
     private String account;
+    //密码
     private String password;
 
     public String getAccount() {

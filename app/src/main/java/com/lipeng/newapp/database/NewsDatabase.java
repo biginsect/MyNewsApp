@@ -1,30 +1,33 @@
-package com.example.lipeng_ds3.myapp.database;
+package com.lipeng.newapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.example.lipeng_ds3.myapp.model.News;
+import com.lipeng.newapp.model.News;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by lipeng-ds3 on 2017/10/30.
+ * {@link News}对应的数据库操作类，主要有数据的存储方法{@link #saveNews(News)}和数据的读取方法{@link #loadNews()}
  */
 
 public final class NewsDatabase {
     private static final String TAG = "NewsDatabase";
 
+    //数据库名字
     private static final String DB_NAME = "MyNews";
+    //数据库版本
     private static final int DB_VERSION = 1;
     private static NewsDatabase newsDataBase ;
     private SQLiteDatabase database;
 
     private NewsDatabase(Context context){
         MyDatabaseHelper helper = new MyDatabaseHelper(context, DB_NAME, null, DB_VERSION);
+        //获取一个可进行读写操作的数据库，磁盘满了后此方法会抛出异常
         database = helper.getWritableDatabase();
     }
 
@@ -35,6 +38,10 @@ public final class NewsDatabase {
         return newsDataBase;
     }
 
+    /**
+     * 将数据存放到数据库中
+     * @param news 需要保存的News对象
+     * */
     public void saveNews(News news){
         if (news != null){
             ContentValues values = new ContentValues();
@@ -46,11 +53,12 @@ public final class NewsDatabase {
         }
     }
 
+    //从数据库读取内容并存放到List中
     public List<News> loadNews(){
         List<News> newsList = new ArrayList<>();
         Cursor cursor = database.query("news", null, null, null, null, null, null);
 //        String start = "</span>\n</div>\n\n<div class=\"content\">\n<p>";
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){//数据库中有记录
             News news = new News();
             news.setNewsId(cursor.getInt(cursor.getColumnIndex("id")));
             news.setNewsImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));

@@ -1,13 +1,18 @@
-package com.example.lipeng_ds3.myapp.model;
+package com.lipeng.newapp.model;
 
 /**
  * Created by lipeng-ds3 on 2017/10/27.
+ * 新闻实体类
  */
 
 public class News {
+    //新闻id
     private int newsId;
+    //新闻图片的url
     private String newsImageUrl;
+    //新闻的title
     private String newsTitle;
+    //新闻的content
     private String newsContent;
 
     public int getNewsId() {

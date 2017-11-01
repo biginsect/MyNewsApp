@@ -1,4 +1,4 @@
-package com.example.lipeng_ds3.myapp.activity;
+package com.lipeng.newapp.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,19 +9,24 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.example.lipeng_ds3.myapp.R;
-import com.example.lipeng_ds3.myapp.util.HTMLFormat;
-import com.example.lipeng_ds3.myapp.util.NetworkUtil;
+import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.util.HTMLFormat;
+import com.lipeng.newapp.util.NetworkUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by lipeng-ds3 on 2017/10/27.
+ * email:  lipeng-ds3@gomeplus.com
+ * 新闻详情页面，需要检查当前网路状态
+ * 从{@link MainActivity}页面点击item跳转后的页面
+ * 由于向API请求时返回的数据有html代码以及css代码，在加载WebView时需要将这些代码传入
+ * 图片处理还未能做到适度缩放以适应当前屏幕
  */
 
-public class NewsActivity extends AppCompatActivity {
-    private static final String TAG = "NewsActivity";
+public class WebViewActivity extends AppCompatActivity {
+    private static final String TAG = "WebViewActivity";
     @BindView(R.id.news_detail)  WebView mWebView;
 
     @Override
@@ -30,7 +35,8 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.news_page);
 
         ButterKnife.bind(this);
-        if (!NetworkUtil.isNetworkAvailable(NewsActivity.this))
+        //检查网络状态
+        if (!NetworkUtil.isNetworkAvailable(WebViewActivity.this))
             Toast.makeText(this, "No Available Network!",Toast.LENGTH_LONG).show();
         else{
             Log.d(TAG, "Network is available!");
@@ -38,18 +44,19 @@ public class NewsActivity extends AppCompatActivity {
         init();
     }
 
-    private String loadHtmlCode(){
+    private String loadHtmlCode(){//读取存储在SharedPreferences中的html代码
         SharedPreferences preferences = getSharedPreferences("html", MODE_PRIVATE);
         return preferences.getString("html","");
     }
 
-    private void init(){
+    private void init(){//初始化，加载数据和布局
         //当前news的url
         String address = getIntent().getStringExtra("address");
         NetworkUtil.loadWebViewFromURL(this, address);
 //        Log.d(TAG, "  " + address);
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebView.getSettings().setSupportZoom(true);
+        //---/data/data/com.example.lipeng_ds3/shared_prefs/css.css此路径是css代码存放的路径
         mWebView.loadDataWithBaseURL("/data/data/com.example.lipeng_ds3/shared_prefs/css.css",
                 HTMLFormat.setNewContent(loadHtmlCode()), "text/html", "UTF-8", null);
     }
