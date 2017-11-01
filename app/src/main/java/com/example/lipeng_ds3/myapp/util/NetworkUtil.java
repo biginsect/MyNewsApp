@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.example.lipeng_ds3.myapp.database.NewsDatabase;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -20,9 +21,13 @@ import okhttp3.Response;
 public final class NetworkUtil {
     public static final String NEWS_URL = "https://news-at.zhihu.com/api/4/news/latest";
     public static final String URL_HAS_NOT_ID = "https://news-at.zhihu.com/api/4/news/";
-    private static final OkHttpClient client = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(1000, TimeUnit.MINUTES)
+            .readTimeout(1000, TimeUnit.MINUTES)
+            .writeTimeout(1000, TimeUnit.MINUTES)
+            .build();
 
-    public static void getContentFromURL(final NewsDatabase database, String url){
+    public static boolean getContentFromURL(final NewsDatabase database, String url){
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -30,6 +35,7 @@ public final class NetworkUtil {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
+                call.cancel();
             }
 
             @Override
@@ -39,6 +45,7 @@ public final class NetworkUtil {
                 ResolveResponseUseJson.handleResponse(database, response.body().string());
             }
         });
+        return true;
 
     }
 

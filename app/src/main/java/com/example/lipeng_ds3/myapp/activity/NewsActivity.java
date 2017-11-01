@@ -29,9 +29,10 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.news_page);
 
         ButterKnife.bind(this);
+        //当前news的url
         String address = getIntent().getStringExtra("address");
         NetworkUtil.loadWebViewFromURL(this, address);
-        Log.d(TAG, "  " + address);
+//        Log.d(TAG, "  " + address);
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebView.getSettings().setSupportZoom(true);
         mWebView.loadDataWithBaseURL("/data/data/com.example.lipeng_ds3/shared_prefs/css.css", HTMLFormat.setNewContent(loadHtmlCode()), "text/html",

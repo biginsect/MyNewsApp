@@ -17,7 +17,6 @@ import java.util.List;
 
 public final class NewsDatabase {
     private static final String TAG = "NewsDatabase";
-    public static volatile boolean flag = false;
 
     private static final String DB_NAME = "MyNews";
     private static final int DB_VERSION = 1;
@@ -58,13 +57,9 @@ public final class NewsDatabase {
             news.setNewsTitle(cursor.getString(cursor.getColumnIndex("title")));
             String content = cursor.getString(cursor.getColumnIndex("content"));
 
-            if (content != null){
-                content = content.replaceAll("[^\u4E00-\u9FA5]","");
-                news.setNewsContent(content);
-            }else {
-                flag = false;
-            }
-            Log.d(TAG, news.getNewsImageUrl());
+            content = content.replaceAll("[^\u4E00-\u9FA5]","");
+            news.setNewsContent(content);
+//            Log.d(TAG, news.getNewsImageUrl());
             newsList.add(news);
         }
         if (cursor != null)

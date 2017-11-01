@@ -36,24 +36,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        init();
+    }
 
+    private void init(){//初始化控件，加载数据等
+        ButterKnife.bind(this);
         Fresco.initialize(this);
         newsList = new ArrayList<>();
         mDatabase = NewsDatabase.getInstance(this);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
         //加载数据
         //不应该每次都根据url去请求数据
-        if (!NewsDatabase.flag){
-            NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL);
+        if(NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL)) {
+            newsList = mDatabase.loadNews();
         }
-        newsList = mDatabase.loadNews();
-        Log.d(TAG, "news size is " + newsList.size());
+//        Log.d(TAG, "news size is " + newsList.size());
         adapter = new MyAdapter(this, newsList);
         mRecyclerView.setAdapter(adapter);
-
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, News position) {
@@ -69,5 +69,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }
