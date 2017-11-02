@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.R;
 import com.lipeng.newapp.database.UserDatabase;
 import com.lipeng.newapp.model.User;
 

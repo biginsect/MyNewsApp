@@ -1,4 +1,4 @@
-package com.example.lipeng_ds3.newsapp;
+package com.lipeng.newapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

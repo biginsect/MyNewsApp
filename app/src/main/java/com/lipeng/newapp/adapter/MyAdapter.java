@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.R;
 import com.lipeng.newapp.model.News;
 import com.facebook.drawee.view.SimpleDraweeView;
 

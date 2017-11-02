@@ -9,7 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.R;
 import com.lipeng.newapp.util.HTMLFormat;
 import com.lipeng.newapp.util.NetworkUtil;
 
@@ -57,7 +57,7 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebView.getSettings().setSupportZoom(true);
         //---/data/data/com.example.lipeng_ds3/shared_prefs/css.css此路径是css代码存放的路径
-        mWebView.loadDataWithBaseURL("/data/data/com.example.lipeng_ds3/shared_prefs/css.css",
+        mWebView.loadDataWithBaseURL("/data/data/com.lipeng/shared_prefs/css.css",
                 HTMLFormat.setNewContent(loadHtmlCode()), "text/html", "UTF-8", null);
     }
 }

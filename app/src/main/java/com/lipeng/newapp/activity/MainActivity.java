@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.lipeng_ds3.newsapp.R;
+import com.lipeng.newapp.R;
 import com.lipeng.newapp.adapter.MyAdapter;
 import com.lipeng.newapp.database.NewsDatabase;
 import com.lipeng.newapp.model.News;
