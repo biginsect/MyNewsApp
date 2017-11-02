@@ -40,7 +40,7 @@ public final class NetworkUtil {
      * 方法主要用于请求{@link #NEWS_URL}的数据
      * @param database 数据库操作实例，用于调用数据库的新闻存储方法{@link NewsDatabase#saveNews(News)}
      * @param url 请求的url*/
-    public static boolean getContentFromURL(final NewsDatabase database, String url){
+    public static void getContentFromURL(final NewsDatabase database, String url){
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -58,8 +58,6 @@ public final class NetworkUtil {
                 ResolveResponseUseJson.handleResponse(database, response.body().string());
             }
         });
-        return true;
-
     }
 
     /**
