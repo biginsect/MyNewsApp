@@ -22,6 +22,7 @@ public final class NewsDatabase {
     private static final String DB_NAME = "MyNews";
     //数据库版本
     private static final int DB_VERSION = 1;
+    //单例模式
     private static NewsDatabase newsDataBase ;
     private SQLiteDatabase database;
 

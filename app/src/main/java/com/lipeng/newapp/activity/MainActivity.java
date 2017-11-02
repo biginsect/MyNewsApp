@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 //获取news 的id，添加到url中，跳转到对应的详情页面
                 newsId = news.getNewsId();
                 Log.d(TAG, newsId + "");
-                //先测试能否跳转
+                //使用Intent完成activity之间的跳转
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
                 intent.putExtra("address",NetworkUtil.URL_HAS_NOT_ID + newsId);
                 startActivity(intent);

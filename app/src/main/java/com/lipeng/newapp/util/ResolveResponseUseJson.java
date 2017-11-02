@@ -12,7 +12,8 @@ import org.json.JSONObject;
 /**
  * Created by lipeng-ds3 on 2017/10/30.
  *
- * 主要用于处理请求返回的数据，服务器返回的是键值对类型，因此使用JSON对其进行解析
+ * 主要用于处理请求返回的数据，服务器返回的是键值对类型，使用JSON对其进行解析
+ * 解析完成则对其内容进行拆分，之后存储到数据库中
  */
 
 public final class ResolveResponseUseJson {
@@ -48,7 +49,7 @@ public final class ResolveResponseUseJson {
 
     /**
      * {@link #handleResponse(NewsDatabase, String)}返回两种数据，stories和top_stories
-     * 由于stories 返回的图片url对于的键是images 而top_stories 返回的是image
+     * 由于stories 返回的图片url对于的键是images 而top_stories 返回的是image，需要进行不同的处理
      * 当前方法处理的是stories返回的数据
      * {@link #handleJSONArrayTopStories(NewsDatabase, String[])}处理top_stories返回的数据
      * 处理完成立即存储到数据库中

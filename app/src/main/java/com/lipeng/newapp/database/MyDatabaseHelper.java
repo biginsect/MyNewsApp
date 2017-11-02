@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
+    /**
+     * 创建数据库*/
     private static final String CREATE_USER = "create table user(" +
             "account text primary key," +
             "password text)";

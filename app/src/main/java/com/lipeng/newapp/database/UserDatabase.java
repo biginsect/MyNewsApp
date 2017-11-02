@@ -15,8 +15,11 @@ import java.util.List;
  */
 
 public class UserDatabase {
+    //数据库名
     private static final String DB_NAME = "user";
+    //数据库版本
     private static final int VERSION = 1;
+    //单例模式
     private static UserDatabase userDatabase;
     private SQLiteDatabase database;
 

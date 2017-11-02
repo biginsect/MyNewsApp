@@ -46,10 +46,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> impl
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         News news = mNews.get(position);
-//        holder.newsImage.setImageResource(news.getNewsImageUrl());
         holder.newsTitle.setText(news.getNewsTitle());
         holder.newsContent.setText(news.getNewsContent());
-        //通过Url请求图片，会自动缓存
+        //使用fresco，通过Url请求图片，会自动缓存
         holder.newsImage.setImageURI(Uri.parse(news.getNewsImageUrl()));
         //存储每一个itemView的相关内容，不需要重复加载
         holder.itemView.setTag(mNews.get(position));
