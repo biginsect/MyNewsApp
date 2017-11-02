@@ -1,9 +1,9 @@
-package com.lipeng.newapp.util;
+package com.lipeng.newapp.utils;
 
 import android.util.Log;
 
 import com.lipeng.newapp.database.NewsDatabase;
-import com.lipeng.newapp.model.News;
+import com.lipeng.newapp.bean.News;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +34,7 @@ public final class ResolveResponseUseJson {
             for (int i = 0; i < stories.length; i++){
                 stories[i] = jsonArrayStories.getString(i);
             }
+            //解析完成，将子项分开并存放到数据库中
             handleJSONArray(dataBase, stories);
 
             JSONArray jsonArrayTopStories = jsonObject.getJSONArray("top_stories");
@@ -41,6 +42,7 @@ public final class ResolveResponseUseJson {
             for (int i = 0; i < topStories.length; i++){
                 topStories[i] = jsonArrayTopStories.getString(i);
             }
+            ////解析完成，将子项分开并存放到数据库中
             handleJSONArrayTopStories(dataBase, topStories);
         }catch (JSONException e){
             e.printStackTrace();

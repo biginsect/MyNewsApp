@@ -10,8 +10,8 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.lipeng.newapp.R;
-import com.lipeng.newapp.util.HTMLFormat;
-import com.lipeng.newapp.util.NetworkUtil;
+import com.lipeng.newapp.utils.HTMLFormat;
+import com.lipeng.newapp.utils.NetworkUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +58,6 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.getSettings().setSupportZoom(true);
         //---/data/data/com.example.lipeng_ds3/shared_prefs/css.css此路径是css代码存放的路径
         mWebView.loadDataWithBaseURL("/data/data/com.lipeng/shared_prefs/css.css",
-                HTMLFormat.setNewContent(loadHtmlCode()), "text/html", "UTF-8", null);
+                HTMLFormat.setWebViewType(loadHtmlCode()), "text/html", "UTF-8", null);
     }
 }

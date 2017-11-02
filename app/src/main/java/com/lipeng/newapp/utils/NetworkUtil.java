@@ -1,4 +1,4 @@
-package com.lipeng.newapp.util;
+package com.lipeng.newapp.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.lipeng.newapp.database.NewsDatabase;
-import com.lipeng.newapp.model.News;
+import com.lipeng.newapp.bean.News;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

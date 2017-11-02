@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.lipeng.newapp.R;
 import com.lipeng.newapp.adapter.MyAdapter;
 import com.lipeng.newapp.database.NewsDatabase;
-import com.lipeng.newapp.model.News;
-import com.lipeng.newapp.util.NetworkUtil;
+import com.lipeng.newapp.bean.News;
+import com.lipeng.newapp.utils.NetworkUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
     @BindView(R.id.news_rv) RecyclerView mRecyclerView;
 
-    private List<News> newsList ;
-    private MyAdapter adapter;
+    private List<News> mNewsList;
+    private MyAdapter mAdapter;
     private NewsDatabase mDatabase;
 
-    private News news;
-    private int newsId;
+    private News mNews;
+    private int mNewsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Fresco.initialize(this);
         //存放news的List
-        newsList = new ArrayList<>();
+        mNewsList = new ArrayList<>();
         mDatabase = NewsDatabase.getInstance(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //保持RecyclerView固定的大小
@@ -62,23 +62,23 @@ public class MainActivity extends AppCompatActivity {
         //请求数据,完成后将数据存储到数据库中
         NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL);
         //读取数据库内容
-        newsList = mDatabase.loadNews();
+        mNewsList = mDatabase.loadNews();
 
-//        Log.d(TAG, "news size is " + newsList.size());
-        adapter = new MyAdapter(this, newsList);
-        mRecyclerView.setAdapter(adapter);
+//        Log.d(TAG, "mNews size is " + mNewsList.size());
+        mAdapter = new MyAdapter(this, mNewsList);
+        mRecyclerView.setAdapter(mAdapter);
 
-        adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, News position) {
                 //点击启动详情页面
-                news = position;
+                mNews = position;
                 //获取news 的id，添加到url中，跳转到对应的详情页面
-                newsId = news.getNewsId();
-                Log.d(TAG, newsId + "");
+                mNewsId = mNews.getNewsId();
+                Log.d(TAG, mNewsId + "");
                 //使用Intent完成activity之间的跳转
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
-                intent.putExtra("address",NetworkUtil.URL_HAS_NOT_ID + newsId);
+                intent.putExtra("address",NetworkUtil.URL_HAS_NOT_ID + mNewsId);
                 startActivity(intent);
             }
         });

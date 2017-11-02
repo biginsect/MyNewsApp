@@ -1,4 +1,4 @@
-package com.lipeng.newapp.util;
+package com.lipeng.newapp.utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 public final class HTMLFormat {
 
     // 用于处理WebView加载html代码时，图片显示模糊问题
-    public static String setNewContent(String htmltext){
+    public static String setWebViewType(String htmltext){
         Document document = Jsoup.parse(htmltext);
         //返回带有指定标签名（ima）的对象的集合，元素的顺序不变
         Elements elements = document.getElementsByTag("ima");

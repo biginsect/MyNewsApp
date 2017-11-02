@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.lipeng.newapp.model.User;
+import com.lipeng.newapp.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,24 +20,24 @@ public class UserDatabase {
     //数据库版本
     private static final int VERSION = 1;
     //单例模式
-    private static UserDatabase userDatabase;
-    private SQLiteDatabase database;
+    private static UserDatabase mUserDatabase;
+    private SQLiteDatabase mDatabase;
 
     private UserDatabase(Context context){
         MyDatabaseHelper helper = new MyDatabaseHelper(context, DB_NAME, null, VERSION);
-        database = helper.getWritableDatabase();
+        mDatabase = helper.getWritableDatabase();
     }
 
     public synchronized static UserDatabase getInstance(Context context){//单例模式
-        if (userDatabase == null){
-            userDatabase = new UserDatabase(context);
+        if (mUserDatabase == null){
+            mUserDatabase = new UserDatabase(context);
         }
-        return userDatabase;
+        return mUserDatabase;
     }
 
     public List<User> getUser(){//在数据库中获取账号密码
         List<User> userList = new ArrayList<>();
-        Cursor cursor = database.query("user", null, null, null ,null ,null, null);
+        Cursor cursor = mDatabase.query("user", null, null, null ,null ,null, null);
         if (cursor.moveToFirst()){
             do {
                 User user =new User();

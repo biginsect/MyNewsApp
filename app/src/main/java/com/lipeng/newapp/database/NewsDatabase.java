@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.lipeng.newapp.model.News;
+import com.lipeng.newapp.bean.News;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,20 +23,20 @@ public final class NewsDatabase {
     //数据库版本
     private static final int DB_VERSION = 1;
     //单例模式
-    private static NewsDatabase newsDataBase ;
-    private SQLiteDatabase database;
+    private static NewsDatabase mNewsDataBase;
+    private SQLiteDatabase mDatabase;
 
     private NewsDatabase(Context context){
         MyDatabaseHelper helper = new MyDatabaseHelper(context, DB_NAME, null, DB_VERSION);
         //获取一个可进行读写操作的数据库，磁盘满了后此方法会抛出异常
-        database = helper.getWritableDatabase();
+        mDatabase = helper.getWritableDatabase();
     }
 
     public synchronized static NewsDatabase getInstance(Context context){
-        if (newsDataBase == null){
-            newsDataBase = new NewsDatabase(context);
+        if (mNewsDataBase == null){
+            mNewsDataBase = new NewsDatabase(context);
         }
-        return newsDataBase;
+        return mNewsDataBase;
     }
 
     /**
@@ -50,14 +50,14 @@ public final class NewsDatabase {
             values.put("imageUrl",news.getNewsImageUrl());
             values.put("title",news.getNewsTitle());
             values.put("content",news.getNewsContent());
-            database.insertWithOnConflict("news", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            mDatabase.insertWithOnConflict("news", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
 
     //从数据库读取内容并存放到List中
     public List<News> loadNews(){
         List<News> newsList = new ArrayList<>();
-        Cursor cursor = database.query("news", null, null, null, null, null, null);
+        Cursor cursor = mDatabase.query("news", null, null, null, null, null, null);
 //        String start = "</span>\n</div>\n\n<div class=\"content\">\n<p>";
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){//数据库中有记录
             News news = new News();

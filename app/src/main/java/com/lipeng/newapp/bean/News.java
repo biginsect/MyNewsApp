@@ -1,4 +1,4 @@
-package com.lipeng.newapp.model;
+package com.lipeng.newapp.bean;
 
 /**
  * Created by lipeng-ds3 on 2017/10/27.

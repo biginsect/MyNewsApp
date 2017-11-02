@@ -16,7 +16,7 @@
             android:gravity="center"
             android:textSize="25sp"/>
         <EditText
-            android:id="@+id/account"
+            android:id="@+id/edit_account"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/account_hit"/>
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:textSize="25sp"/>
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/password_hit"
@@ -43,7 +43,7 @@
     </LinearLayout>
 
 <Button
-    android:id="@+id/login"
+    android:id="@+id/btn_login"
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:text="@string/login"

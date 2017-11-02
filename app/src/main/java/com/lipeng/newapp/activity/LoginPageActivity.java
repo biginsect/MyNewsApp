@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.lipeng.newapp.R;
 import com.lipeng.newapp.database.UserDatabase;
-import com.lipeng.newapp.model.User;
+import com.lipeng.newapp.bean.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,32 +24,32 @@ import butterknife.ButterKnife;
  */
 
 public class LoginPageActivity extends AppCompatActivity implements View.OnClickListener{
-    private UserDatabase database;
-    private User user;
-    private String account;
-    private String password;
-    private String getAccount;
-    private String getPassword;
+    private UserDatabase mDatabase;
+    private User mUser;
+    private String mAccount;
+    private String mPassword;
+    private String mAccountFromEditText;
+    private String mPasswordFromEditText;
 
     //控件
-    @BindView(R.id.account) EditText accountEdit;
-    @BindView(R.id.password) EditText passwordEdit;
-    @BindView(R.id.login)  Button loginBtn;
+    @BindView(R.id.account) EditText mEditAccount;
+    @BindView(R.id.password) EditText mEditPassword;
+    @BindView(R.id.login)  Button mBtnLogin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
         ButterKnife.bind(this);
-        loginBtn.setOnClickListener(this);
+        mBtnLogin.setOnClickListener(this);
         getUserFromDB();
     }
 
     private void getUserFromDB(){//从数据库读取账号密码
-        database = UserDatabase.getInstance(this);
-        user = database.getUser().get(0);
-        account = user.getAccount();
-        password = user.getPassword();
+        mDatabase = UserDatabase.getInstance(this);
+        mUser = mDatabase.getUser().get(0);
+        mAccount = mUser.getAccount();
+        mPassword = mUser.getPassword();
     }
 
     @Override
@@ -65,18 +65,18 @@ public class LoginPageActivity extends AppCompatActivity implements View.OnClick
 
     private void login(){//对登录操作进行验证
         //获取EditText的账号和密码
-        getAccount = accountEdit.getText().toString();
-        getPassword = passwordEdit.getText().toString();
-        if ((TextUtils.isEmpty(getAccount))
-                || (TextUtils.isEmpty(getPassword))){//检查EditText内容是否为空
-            Toast.makeText(this, "account or password must not be null!",Toast.LENGTH_SHORT ).show();
-        }else if (account.equals(getAccount) && password.equals(getPassword)){//账号密码都正确则跳转
+        mAccountFromEditText = mEditAccount.getText().toString();
+        mPasswordFromEditText = mEditPassword.getText().toString();
+        if ((TextUtils.isEmpty(mAccountFromEditText))
+                || (TextUtils.isEmpty(mPasswordFromEditText))){//检查EditText内容是否为空
+            Toast.makeText(this, "mAccount or mPassword must not be null!",Toast.LENGTH_SHORT ).show();
+        }else if (mAccount.equals(mAccountFromEditText) && mPassword.equals(mPasswordFromEditText)){//账号密码都正确则跳转
             Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
             Toast.makeText(this, "Login successfully!", Toast.LENGTH_SHORT).show();
             startActivity(intent);
             finish();
         }else {
-            Toast.makeText(this, "account or password is invalid!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "mAccount or mPassword is invalid!",Toast.LENGTH_SHORT).show();
         }
     }
 }

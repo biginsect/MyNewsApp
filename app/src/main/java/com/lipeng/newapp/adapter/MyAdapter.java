@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lipeng.newapp.R;
-import com.lipeng.newapp.model.News;
+import com.lipeng.newapp.bean.News;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
