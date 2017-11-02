@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //保持RecyclerView固定的大小
         mRecyclerView.setHasFixedSize(true);
-        //请求数据，当请求成功则向数据库读取内容
+        //请求数据,完成后将数据存储到数据库中
         NetworkUtil.getContentFromURL(mDatabase, NetworkUtil.NEWS_URL);
+        //读取数据库内容
         newsList = mDatabase.loadNews();
 
 //        Log.d(TAG, "news size is " + newsList.size());
